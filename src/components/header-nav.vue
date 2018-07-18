@@ -1,72 +1,75 @@
 <template>
-    <div class="header-nav fixed" :style="{'z-index':zIndex}">
-        <div class="content">
-            <span v-show="isShowHeaderBack" class="back-btn" @click="goBack">
-                <i class="iconfont icon-back"></i>{{ headerBackText }}</span>
-            <h2>{{ headerTitle }}</h2>
-        </div>
-    </div>
+    <mt-header class="header-nav" fixed :title="headerTitle">
+        <mt-button
+            v-show="headerLeft"
+            @click="goBack"
+            icon="back"
+            slot="left"
+            class="back-btn">{{ headerLeftText }}
+        </mt-button>
+        <mt-button
+            v-show="headerRight"
+            icon="more"
+            slot="right">
+        </mt-button>
+    </mt-header>
 </template>
 <script>
-export default {
-    name: "header-nav-tpl",
-    props: {
-        headerTitle: {},
-        isShowHeaderBack: {},
-        headerBackText: {
-            default: "返回"
+    import {Header, Button} from 'mint-ui';
+
+    export default {
+        name      : "header-nav-tpl",
+        components: {
+            [Header.name]: Header,
+            [Button.name]: Button,
         },
-        zIndex:{
-            default: 10
+        props     : {
+            headerTitle   : {
+                required: true
+            },
+            headerLeft    : {
+                default: false
+            },
+            headerRight   : {
+                default: false
+            },
+            headerLeftText: {
+                default: "返回"
+            },
+            zIndex        : {
+                default: 10
+            }
+        },
+        methods   : {
+            goBack() {
+                this.$router.goBack();
+            }
         }
-    },
-    methods: {
-        goBack() {
-            this.$router.goBack();
+    };
+</script>
+
+<style lang="scss">
+    @import "../assets/rem";
+
+    .header-nav {
+        height: rem(52);
+        max-height: rem(52);
+        background: #2A2A2B;
+        .back-btn {
+            font-size: 18px;
+        }
+        .mint-button-icon {
+            vertical-align: inherit;
+        }
+        .mintui {
+            font-size: 17px;
+        }
+        h1 {
+            text-align: center;
+            color: #FFF;
+            display: block;
+            font-size: rem(19.5);
+            line-height: rem(52);
         }
     }
-};
-</script>
-<style scoped lang="scss">
-@import "../assets/rem";
-.header-nav,
-.content,
-.content .back-btn,
-h2 {
-    height: rem(52);
-    max-height: rem(52);
-}
-
-.header-nav {
-    top: 0;
-    overflow: hidden;
-    background: #2a2a2b;
-}
-
-.content {
-    top: 0;
-}
-
-.content .back-btn {
-    position: absolute;
-    top: 0;
-    left: rem(10);
-    display: flex;
-    align-items: center;
-    font-size: 17px;
-    color: #fff;
-}
-
-.content .back-btn i {
-    font-size: 18px;
-    padding-right: rem(5);
-}
-
-.content h2 {
-    text-align: center;
-    color: #fff;
-    display: block;
-    font-size: rem(19.5);
-    line-height: rem(52);
-}
 </style>
