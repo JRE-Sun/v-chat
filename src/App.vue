@@ -53,5 +53,8 @@ body {
     max-width: 100%;
     position: relative;
 }
+.mint-indicator-wrapper{
+    z-index: 20;
+}
 </style>
 
