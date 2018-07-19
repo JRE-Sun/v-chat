@@ -46,7 +46,7 @@ export default {
 .footer {
     position: fixed;
     margin: 0 auto;
-    bottom: 0;
+    bottom: rem(-1);
     left: 0;
     right: 0;
     background-color: #f5f5f7;

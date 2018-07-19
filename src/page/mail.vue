@@ -1,14 +1,19 @@
 <template>
     <div>
-        <header-nav :header-title="headerTitle"></header-nav>
+        <header-nav
+            :header-title="headerTitle">
+        </header-nav>
         <scroll-view @get-obj="getScrollView">
             <div class="main weui-cells">
-                <router-link :to="{name:'mailInfo'}" v-for="(msg,index) in list" v-bind:key="index" class="weui-cell weui-cell_access">
-                    <div class="weui-cell__hd"><img src="https://dn-coding-net-production-static.qbox.me/3f1f6a5c-8a73-41f1-b904-75e958d1825b.jpg?imageMogr2/auto-orient/format/jpeg/crop/!470x470a0a0/thumbnail/80" alt=""></div>
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>{{ msg.username }}</p>
-                    </div>
-                </router-link>
+                <mt-cell
+                    class="item-cell"
+                    v-for="(msg,index) in list"
+                    v-bind:key="index"
+                    :to="{name:'mailInfo'}"
+                    is-link
+                    :title="msg.username">
+                    <img class="avatar-img" slot="icon" src="https://dn-coding-net-production-static.qbox.me/3f1f6a5c-8a73-41f1-b904-75e958d1825b.jpg?imageMogr2/auto-orient/format/jpeg/crop/!470x470a0a0/thumbnail/80" width="24" height="24">
+                </mt-cell>
             </div>
         </scroll-view>
         <footer-nav active='mail'></footer-nav>
@@ -16,70 +21,51 @@
 </template>
 
 <script>
-import routerAnim from "../components/router-anim";
-import headerNav from "../components/header-nav";
-import footerNav from "../components/footer-nav";
-import lineMessageIndex from "../components/timeline-message-index";
+    import {Cell} from 'mint-ui';
+    import {getFriendList} from '@/api/api'
+    import routerAnim from "../components/router-anim";
+    import headerNav from "../components/header-nav";
+    import footerNav from "../components/footer-nav";
+    import lineMessageIndex from "../components/timeline-message-index";
 
-export default {
-    name: "home-tpl",
-    data() {
-        return {
-            headerTitle: "通讯录",
-            list: [],
-            scrollViewObj: ""
-        };
-    },
-    components: {
-        headerNav,
-        footerNav,
-        lineMessageIndex,
-        routerAnim
-    },
-    methods: {
-        getScrollView(obj) {
-            this.scrollViewObj = obj;
-        }
-    },
-    computed: {},
-    updated() {},
-    mounted() {
-        this.$http
-            .post("mail", {
-                firstName: "Fred",
-                lastName: "Flintstone"
-            })
-            .then(res => {
+    export default {
+        name      : "home-tpl",
+        components: {
+            [Cell.name]: Cell,
+            headerNav,
+            footerNav,
+            lineMessageIndex,
+            routerAnim,
+        },
+        data() {
+            return {
+                headerTitle  : "通讯录",
+                list         : [],
+                scrollViewObj: ""
+            };
+        },
+        methods   : {
+            getScrollView(obj) {
+                this.scrollViewObj = obj;
+            }
+        },
+        computed  : {},
+        updated() {
+        },
+        mounted() {
+            getFriendList().then(res => {
                 this.list = this.list.concat(res.data.extend);
-            })
-            .catch(error => {
-                console.log(error);
             });
-    }
-};
+        }
+    };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/rem";
-
-.weui-cells {
-    background-color: #ffffff;
-    line-height: rem(25);
-    font-size: rem(17);
-    // overflow: scroll;
-    // -webkit-overflow-scrolling: touch;
-    position: relative;
-    .weui-cell__hd {
-        position: relative;
-        margin-right: rem(10);
-        img {
-            width: rem(50);
-            height: rem(50);
-            // border-radius: 5px;
-            overflow: hidden;
-            display: block;
-        }
+    @import "../assets/rem";
+    .avatar-img{
+        width: rem(50);
+        height: rem(50);
+        margin: rem(8) rem(5) rem(8) 0;
     }
-}
 </style>
 

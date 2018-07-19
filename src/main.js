@@ -8,6 +8,7 @@ import 'mint-ui/lib/style.css';
 import IScrollView from 'vue-iscroll-view';
 import IScroll from 'iscroll';
 import rem from './assets/rem';
+import './assets/weui.min.css';
 import scrollUnique from './assets/scrollUnique';
 Vue.prototype.ScrollUnique = scrollUnique;
 FastClick.attach(document.body);

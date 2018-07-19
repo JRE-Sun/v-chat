@@ -1,6 +1,10 @@
 <template>
     <div content="containter">
-        <header-nav isShowHeaderBack="true" zIndex="11" :header-title="headerTitle"></header-nav>
+        <header-nav
+            headerLeft="true"
+            zIndex="11"
+            :header-title="headerTitle">
+        </header-nav>
         <scroll-view>
             <div class="main weui-cells">
                 <div class="weui-cell user-info">

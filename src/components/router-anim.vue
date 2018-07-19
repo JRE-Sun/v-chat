@@ -53,7 +53,7 @@ export default {
     transition: all 0.3s ease-out;
     z-index: 10;
     overflow-y: scroll;
-    perspective: 1000;
+    /*perspective: 1000;*/
     backface-visibility: hidden;
 }
 
